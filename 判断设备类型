@@ -1,0 +1,64 @@
+<script setup>
+import { ref, onMounted } from 'vue'
+// 定义响应式变量，用于在界面上显示状态
+const deviceType = ref('检测中...')
+
+const checkDevice = () => {
+  // 获取浏览器的 User Agent 字符串，并转为小写以便匹配
+  const userAgent = navigator.userAgent.toLowerCase()
+  // 简单的正则判断是否为移动设备 /i 表示忽略大小写
+  //检查该字符串是否包含与正则表达式模式匹配的任何部分。如果找到匹配项，它返回 true；否则返回 false。
+  const isMobile = /mobile|android|iphone|ipad|phone/i.test(userAgent)
+  deviceType.value = isMobile ? '移动端' : 'PC端'
+  console.log(userAgent)
+  console.log(isMobile)
+  console.log(deviceType.value)
+}
+
+onMounted(() => {
+  checkDevice()
+})
+</script>
+
+<template>
+  <div class="container">
+    <h1>设备类型检测</h1>
+    <p class="message">当前检测结果：<span :class="deviceType === '移动端' ? 'mobile' : 'pc'">{{ deviceType }}</span></p>
+  </div>
+</template>
+
+<style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  color: #333;
+}
+
+.message {
+  font-size: 1.5rem;
+  margin-top: 20px;
+}
+
+span {
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.pc {
+  color: #2c3e50;
+  background-color: #e0e0e0;
+}
+
+.mobile {
+  color: #42b983;
+  background-color: #e0f2f1;
+}
+</style>
